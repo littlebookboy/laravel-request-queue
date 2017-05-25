@@ -3,5 +3,10 @@
     "require": {
         "predis/predis": "~1.1",
         "littlebookboy/laravel-request-recorder": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LittleBookBoy\\Request\\Queue\\": "src/"
+        }
     }
 }
