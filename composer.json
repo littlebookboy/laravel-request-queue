@@ -1,0 +1,7 @@
+{
+    "name": "littlebookboy/laravel-request-queue",
+    "require": {
+        "predis/predis": "~1.1",
+        "littlebookboy/laravel-request-recorder": "~1.0"
+    }
+}
