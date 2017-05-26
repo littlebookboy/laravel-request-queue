@@ -1,8 +1,19 @@
 {
     "name": "littlebookboy/laravel-request-queue",
+    "type": "library",
+    "description": "Help you have a easy way to dispatch your every request into queue and record the related information.",
+    "homepage": "https://github.com/littlebookboy/laravel-request-queue",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Ching Yuan Su",
+            "email": "kevin2pig@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "predis/predis": "~1.1",
-        "littlebookboy/laravel-request-recorder": "~1.0"
+        "littlebookboy/laravel-request-recorder": "~1.2"
     },
     "autoload": {
         "psr-4": {
