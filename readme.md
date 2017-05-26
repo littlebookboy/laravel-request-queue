@@ -137,3 +137,13 @@ class UserController extends Controller
 請注意，隊列監聽中，當有程式變動需要重啟監聽才會生效。
 
 處理請求可在 ```app/Jobs/RequestQueueJobs.php``` 中的 ```handle``` 進行邏輯處理。
+
+## 回呼參數
+
+隊列工作啟動條件目前設置為 patch, put, delete 三種請求會進行請求回應的處理流程，
+當請求參數包含 ```_callback_url``` 與 ```_callback_token``` 時，會將回應設為 202，
+表示請求已接受，並把實際請求派送到隊列中，進行處理，並在處理後呼叫 ```_callback_url``` 這個位址，
+告訴請求方請求已完成。
+
+若記錄緝捕追到相同的請求識別 id ```uuid``` 時，會回應 409 告訴請求方，識別 id 發生衝突。若是沒有傳送
+```_callback_url``` 與 ```_callback_token``` 時，系統會直接處理該請求，並回應請求方，這種作法請求方需等候回應。
