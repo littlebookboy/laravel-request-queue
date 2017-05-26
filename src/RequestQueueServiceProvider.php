@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use LittleBookBoy\Request\Queue\Middleware\RequestQueueMiddleware;
 use LittleBookBoy\Request\Recorder\Middleware\RequestRecorderMiddleware;
+use LittleBookBoy\Request\Recorder\RequestRecorderServiceProvider;
 
 class RequestQueueServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,8 @@ class RequestQueueServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // 註冊服務
+        $this->app->register(RequestRecorderServiceProvider::class);
     }
 
     /**

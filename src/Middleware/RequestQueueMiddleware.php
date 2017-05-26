@@ -4,9 +4,7 @@ namespace LittleBookBoy\Request\Queue\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use LittleBookBoy\Request\Queue\Jobs\RequestQueueJobs;
-use LittleBookBoy\Request\Recorder\Models\RequestRecords;
+use App\Jobs\RequestQueueJobs;
 
 class RequestQueueMiddleware
 {
