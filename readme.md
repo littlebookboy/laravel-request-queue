@@ -80,22 +80,15 @@ extension="redis.so"
 
 ## Example
 
-路由範例，本例僅針對 api route 設置 patch, put, delete 三種請求路由進行處理
-```
-Route::resource('user', 'UserController', ['only' => ['store', 'update', 'destroy']]);
-```
-
-若是透過 AJAX 發送請求，要加入 Header 告訴系統我是用 AJAX 傳遞資料，不然測試時，
-會遇到 request 參數收不到的情形，請 [參考](https://imququ.com/post/four-ways-to-post-data-in-http.html)
-```
-Content-Type: x-www-form-urlencoded
-```
-
-## Example
-
 > 假設現在你有專案預設的 User model 與 users 資料表，裡面有一個 id 為 1 的使用者資料；
 > 
 > 若記錄緝捕追到相同的請求識別 id ```X-Correlation-ID``` 時，會回應 409 告訴請求方，表示識別 id 發生衝突。
+
+若是透過 AJAX 發送請求，要加入 Header 告訴系統我是用 AJAX 傳遞資料，不然測試時，
+會遇到 request 參數收不到的情形，請[參考](https://imququ.com/post/four-ways-to-post-data-in-http.html)
+```
+Content-Type: x-www-form-urlencoded
+```
 
 ### 接收請求路由
 
