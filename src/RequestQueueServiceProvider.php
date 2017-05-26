@@ -52,6 +52,10 @@ class RequestQueueServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/resources/config/request-queue.php' => config_path('request-queue.php')
             ]);
+            // Jobs
+            $this->publishes([
+                __DIR__ . '/Jobs/RequestQueueJobs.php' => base_path('app/Jobs/RequestQueueJobs.php')
+            ]);
         }
     }
 }
