@@ -19,4 +19,5 @@ return [
     */
 
     'driver' => 'redis',
+    'base_url' => 'http://package.dev',
 ];

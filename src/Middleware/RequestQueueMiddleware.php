@@ -77,11 +77,20 @@ class RequestQueueMiddleware
     {
         // 派送工作到隊列，傳入 request 參數與路由
         dispatch(
-            (new RequestQueueJobs($request->toArray(), $request->route()->uri()))
-                // 指定存放的資料庫 driver
-                ->onConnection('redis')
-                // 設定隊列名稱，在 redis 中隊對應的 key 名稱為 queues:api:request
-                ->onQueue('api:request')
+            (new RequestQueueJobs(
+                // 請求識別 id
+                $request->headers->get(self::X_CORRELATION_ID),
+                // 請求參數
+                $request->toArray(),
+                // 請求原始路由
+                $request->path(),
+                // 請求方法
+                $request->method()
+            ))
+            // 指定存放的資料庫 driver
+            ->onConnection('redis')
+            // 設定隊列名稱，在 redis 中隊對應的 key 名稱為 queues:api:request
+            ->onQueue('api:request')
         );
     }
 }

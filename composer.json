@@ -13,6 +13,7 @@
     ],
     "require": {
         "predis/predis": "~1.1",
+        "guzzlehttp/guzzle": "~6.2.3",
         "littlebookboy/laravel-request-recorder": "~1.2"
     },
     "autoload": {

@@ -93,15 +93,38 @@ Content-Type: x-www-form-urlencoded
 
 ## Example
 
-假設現在你有專案預設的 User model 與 users 資料表，裡面有一個 id 為 1 的使用者資料
+> 假設現在你有專案預設的 User model 與 users 資料表，裡面有一個 id 為 1 的使用者資料；
+> 
+> 若記錄緝捕追到相同的請求識別 id ```X-Correlation-ID``` 時，會回應 409 告訴請求方，表示識別 id 發生衝突。
 
-路由
+### 接收請求路由
+
+隊列工作啟動條件目前設置為 patch, put, delete 三種請求會進行請求回應的處理流程
+
 ```
 // patch, put, delete
 Route::resource('user', 'UserController', ['only' => ['store', 'update', 'destroy']]);
 ```
 
-控制器
+### 請求 callback 參數
+
+> 請求時傳入包含 ```_callback_url``` 與 ```_callback_token``` 兩個參數，系統會回應 202，
+> 表示請求已接受，並把實際請求派送到隊列中，進行處理，並在處理後呼叫 ```_callback_url``` 這個位址。
+> 
+> 若是沒有傳送```_callback_url``` 與 ```_callback_token``` 時，系統會直接處理該請求，並回應請求方，這種作法請求方需等候回應。
+
+callback 路由，將原始請求的請求識別 id 回應到 callback 位址
+```
+Route::post('callback_receiver', function (\Illuminate\Http\Request $request) {
+    // 驗證 token
+    ...
+    
+    // log the callback header
+    Log::info(collect($request->header())->toJson());
+});
+```
+
+測試用控制器，處理 202 之後的隊列工作
 ```
 <?php
 
@@ -134,16 +157,24 @@ class UserController extends Controller
 /path/to/bin/php /path/to/project/artisan queue:work redis --queue=api:request
 ```
 
+### Config
+
+可設定 ```driver``` 與 ```base_url```
+
+|name|description|
+|---|---|
+|driver|隊列使用的資料庫|
+|base_url|處理實際請求時，使用的專案域名|
+
+### Fail Jobs
+
+失敗的訊息可用官方的資料表
+```
+php artisan queue:failed-table
+
+php artisan migrate
+```
+
 請注意，隊列監聽中，當有程式變動需要重啟監聽才會生效。
 
 處理請求可在 ```app/Jobs/RequestQueueJobs.php``` 中的 ```handle``` 進行邏輯處理。
-
-## 回呼參數
-
-隊列工作啟動條件目前設置為 patch, put, delete 三種請求會進行請求回應的處理流程，
-當請求參數包含 ```_callback_url``` 與 ```_callback_token``` 時，會將回應設為 202，
-表示請求已接受，並把實際請求派送到隊列中，進行處理，並在處理後呼叫 ```_callback_url``` 這個位址，
-告訴請求方請求已完成。
-
-若記錄緝捕追到相同的請求識別 id ```uuid``` 時，會回應 409 告訴請求方，識別 id 發生衝突。若是沒有傳送
-```_callback_url``` 與 ```_callback_token``` 時，系統會直接處理該請求，並回應請求方，這種作法請求方需等候回應。
