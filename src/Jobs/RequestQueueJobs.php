@@ -1,14 +1,15 @@
 <?php
 
-namespace LittleBookBoy\Request\Queue\Jobs;
+namespace App\Jobs;
 
-use App\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
 class RequestQueueJobs implements ShouldQueue
 {
@@ -53,9 +54,7 @@ class RequestQueueJobs implements ShouldQueue
     public function handle()
     {
         // 處理請求
-        $user = new User();
-        $user->name = str_random(20);
-        $user->save();
+        Log::info(Carbon::now());
     }
 
     /**
